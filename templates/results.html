@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clustering Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stats {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .map-container {
+            height: 600px;
+            margin-bottom: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #666;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clustering Results</h1>
+        
+        <div class="stats">
+            <h2>Statistics</h2>
+            <p>Valid postcodes processed: {{ valid_count }}</p>
+            <p>Invalid postcodes found: {{ invalid_count }}</p>
+        </div>
+
+        <div class="map-container">
+            <iframe src="{{ url_for('static', filename='map.html') }}"></iframe>
+        </div>
+
+        <div>
+            <a href="{{ url_for('static', filename='grouped_postcodes.xlsx') }}" class="download-btn">Download Results (Excel)</a>
+            <a href="{{ url_for('upload_file') }}" class="back-btn">Process Another File</a>
+        </div>
+    </div>
+</body>
+</html> 

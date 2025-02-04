@@ -1,0 +1,7 @@
+flask
+pandas
+scikit-learn
+geopy
+folium
+pyproj
+pyinstaller 
