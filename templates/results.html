@@ -63,11 +63,11 @@
         </div>
 
         <div class="map-container">
-            <iframe src="{{ url_for('static', filename='map.html') }}"></iframe>
+            <iframe src="{{ url_for('serve_static', filename='map.html') }}"></iframe>
         </div>
 
         <div>
-            <a href="{{ url_for('static', filename='grouped_postcodes.xlsx') }}" class="download-btn">Download Results (Excel)</a>
+            <a href="{{ url_for('serve_static', filename='grouped_postcodes.xlsx') }}" class="download-btn">Download Results (Excel)</a>
             <a href="{{ url_for('upload_file') }}" class="back-btn">Process Another File</a>
         </div>
     </div>

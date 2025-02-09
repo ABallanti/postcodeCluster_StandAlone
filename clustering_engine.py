@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.cluster import KMeans
-from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderTimedOut
+# from geopy.geocoders import Nominatim
+# from geopy.exc import GeocoderTimedOut
 import folium
 import os
 from pyproj import Transformer
@@ -172,7 +172,7 @@ def create_map(grouped_postcodes):
 
 # Main code run
 if __name__ == "__main__":
-    input_file = "postcodes_v2.csv"  # Replace with your file path
+    input_file = "postcodes_list_column.csv"  # Replace with your file path
     number_of_groups = 8  # Replace with the desired number of groups of close postcodes
 
     try:

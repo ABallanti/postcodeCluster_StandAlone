@@ -5,7 +5,7 @@ a = Analysis(
     ['run_app.pyw'],
     pathex=[],
     binaries=[],
-    datas=[('templates', 'templates'), ('static', 'static')],
+    datas=[('templates', 'templates'), ('static', 'static'), ('data', 'data')],
     hiddenimports=['sklearn.metrics', 'sklearn.neighbors._partition_nodes'],
     hookspath=[],
     hooksconfig={},
