@@ -5,6 +5,7 @@ from sklearn.cluster import KMeans
 import folium
 import os
 from pyproj import Transformer
+import sys
 
 # Extract non-numeric prefix from postcode
 def extract_postcode_prefix(postcode):
@@ -45,16 +46,24 @@ def get_coordinates(postcode, geolocator=None, retries=None):
     """
     try:
         postcode = postcode.strip().upper()
-        # 1. Extract prefix using existing function
         prefix = extract_postcode_prefix(postcode)
         
-        # 2. Construct the file path using the correct folder structure
-        data_dir = os.path.join(os.path.dirname(__file__), 'data', 'Data', 'CSV')
+        # Update path resolution for PyInstaller bundle
+        if getattr(sys, 'frozen', False):
+            # Running as compiled executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as script
+            base_path = os.path.dirname(__file__)
+        
+        data_dir = os.path.join(base_path, 'data', 'Data', 'CSV')
         file_path = os.path.join(data_dir, f"{prefix.lower()}.csv")
         
-        # Check if file exists
+        # Add debug logging
+        print(f"Looking for postcode data in: {file_path}")
+        
         if not os.path.exists(file_path):
-            print(f"No data file found for prefix {prefix}")
+            print(f"No data file found for prefix {prefix} at {file_path}")
             return None
             
         # 3. Read the specific file (no headers, specific columns)
@@ -173,7 +182,7 @@ def create_map(grouped_postcodes):
 # Main code run
 if __name__ == "__main__":
     input_file = "postcodes_list_column.csv"  # Replace with your file path
-    number_of_groups = 8  # Replace with the desired number of groups of close postcodes
+    number_of_groups = 4  # Replace with the desired number of groups of close postcodes
 
     try:
         grouped_postcodes, invalid_postcodes = group_postcodes(input_file, number_of_groups)  # Get both dataframes

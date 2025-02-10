@@ -1,0 +1,18 @@
+2025-02-10 21:17:55,743 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-10 21:17:55,743 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-10 21:17:57,733 - INFO - 127.0.0.1 - - [10/Feb/2025 21:17:57] "GET / HTTP/1.1" 200 -
+2025-02-10 21:18:08,077 - INFO - Starting file processing...
+2025-02-10 21:18:08,078 - INFO - Received file: postcodes.csv
+2025-02-10 21:18:08,079 - INFO - Number of groups: 4
+2025-02-10 21:18:08,080 - INFO - Saved file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\uploads\20250210_211808_postcodes.csv
+2025-02-10 21:18:08,080 - INFO - Processing postcodes...
+2025-02-10 21:18:09,822 - INFO - Processed 63 valid postcodes and 2 invalid postcodes
+2025-02-10 21:18:09,822 - INFO - Creating map...
+2025-02-10 21:18:09,897 - INFO - Saved map to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\map.html
+2025-02-10 21:18:09,897 - INFO - Attempting to save Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
+2025-02-10 21:18:10,131 - INFO - Successfully saved Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
+2025-02-10 21:18:10,131 - INFO - Excel file verified to exist after saving
+2025-02-10 21:18:10,131 - INFO - Cleaned up uploaded file
+2025-02-10 21:18:10,136 - INFO - 127.0.0.1 - - [10/Feb/2025 21:18:10] "POST / HTTP/1.1" 200 -
+2025-02-10 21:18:10,209 - INFO - 127.0.0.1 - - [10/Feb/2025 21:18:10] "GET /static/map.html HTTP/1.1" 200 -
