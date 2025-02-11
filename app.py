@@ -9,6 +9,9 @@ from werkzeug.utils import secure_filename
 import pandas as pd
 import glob
 import logging
+import traceback
+import subprocess
+import platform
 
 app = Flask(__name__)
 
@@ -45,20 +48,35 @@ clean_old_files()
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Set up logging
+# Update the logging setup
 def setup_logging():
     log_path = 'app.log'
     if getattr(sys, 'frozen', False):
         # If running as executable
         log_path = os.path.join(os.path.dirname(sys.executable), 'app.log')
     
+    # Configure logging with more detailed format
     logging.basicConfig(
         filename=log_path,
-        level=logging.DEBUG,
-        format='%(asctime)s - %(levelname)s - %(message)s'
+        level=logging.DEBUG,  # Set to DEBUG to capture all logs
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
     )
+    
+    # Add console handler to see logs in console too
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    logging.getLogger('').addHandler(console_handler)
+    
+    # Log startup information
+    logging.info("=== Application Starting ===")
+    logging.info(f"Static folder path: {STATIC_FOLDER}")
+    logging.info(f"Upload folder path: {UPLOAD_FOLDER}")
+    logging.info(f"Log file location: {log_path}")
 
-# Initialize logging
+# Call setup_logging() at startup
 setup_logging()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -140,74 +158,77 @@ def upload_file():
 
         except Exception as e:
             logging.error(f"Error processing file: {str(e)}")
-            import traceback
             logging.error(traceback.format_exc())
             return render_template('upload.html', error=f'Error processing file: {str(e)}')
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
-    """Serve static files from the temporary directory when running as executable"""
     try:
-        # Add detailed logging for request information
-        logging.info("=== Starting serve_static request ===")
-        logging.info(f"Request URL: {request.url}")
-        logging.info(f"Filename requested: {filename}")
-        logging.info(f"Static folder path: {STATIC_FOLDER}")
+        logging.info("\n=== Download Request Details ===")
+        logging.info(f"Time of request: {datetime.now()}")
+        logging.info(f"Requested URL: {request.url}")
+        logging.info(f"Looking for file: {filename}")
+        logging.info(f"Static folder configured as: {STATIC_FOLDER}")
         
         file_path = os.path.join(STATIC_FOLDER, filename)
-        logging.info(f"Full file path: {file_path}")
+        logging.info(f"Full file path being checked: {file_path}")
         
-        # Log file existence and permissions
+        # Check if the directory exists
+        if not os.path.exists(STATIC_FOLDER):
+            logging.error(f"Static folder does not exist: {STATIC_FOLDER}")
+            return "Static folder not found", 404
+            
+        # List directory contents
+        try:
+            files_in_static = os.listdir(STATIC_FOLDER)
+            logging.info(f"Files currently in static folder: {files_in_static}")
+        except Exception as e:
+            logging.error(f"Error listing directory: {str(e)}")
+        
+        # Check file existence
         if os.path.exists(file_path):
-            logging.info(f"File exists at: {file_path}")
+            logging.info(f"File found at: {file_path}")
             logging.info(f"File size: {os.path.getsize(file_path)} bytes")
-            logging.info(f"File permissions: {oct(os.stat(file_path).st_mode)[-3:]}")
-        else:
-            logging.error(f"File not found at: {file_path}")
-            return f"File not found: {filename}", 404
-        
-        logging.info("Attempting to serve file...")
-        
-        if filename.endswith('.xlsx'):
-            logging.info("Serving Excel file...")
             try:
-                response = send_file(
+                return send_file(
                     file_path,
                     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     as_attachment=True,
-                    download_name='grouped_postcodes.xlsx',
-                    cache_timeout=0,
-                    conditional=False
+                    download_name='grouped_postcodes.xlsx'
                 )
-                logging.info("Successfully created response object")
-                return response
             except Exception as e:
-                logging.error(f"Error creating send_file response: {str(e)}")
+                logging.error(f"Error sending file: {str(e)}")
                 logging.error(traceback.format_exc())
                 raise
-        
-        # For HTML files (like the map), use send_file with HTML mimetype
-        elif filename.endswith('.html'):
-            logging.info("Serving HTML file")
-            return send_file(
-                file_path,
-                mimetype='text/html',
-                cache_timeout=0
-            )
-            
-        # For other files, use send_file with automatic mimetype detection
-        logging.info("Serving other file type")
-        return send_file(
-            file_path,
-            cache_timeout=0
-        )
-        
+        else:
+            logging.error(f"File not found at: {file_path}")
+            return "File not found", 404
+
     except Exception as e:
         logging.error("=== Error in serve_static ===")
         logging.error(f"Error type: {type(e).__name__}")
         logging.error(f"Error message: {str(e)}")
         logging.error(traceback.format_exc())
-        return f"Error serving file: {str(e)}", 500
+        return f"Error: {str(e)}", 500
+
+@app.route('/open_folder')
+def open_folder():
+    """Opens the static folder in the system's file explorer"""
+    try:
+        logging.info(f"Attempting to open folder: {STATIC_FOLDER}")
+        
+        # Handle different operating systems
+        if platform.system() == "Windows":
+            os.startfile(STATIC_FOLDER)
+        elif platform.system() == "Darwin":  # macOS
+            subprocess.Popen(["open", STATIC_FOLDER])
+        else:  # Linux
+            subprocess.Popen(["xdg-open", STATIC_FOLDER])
+            
+        return "", 204  # Return no content success status
+    except Exception as e:
+        logging.error(f"Error opening folder: {str(e)}")
+        return "Error opening folder", 500
 
 if __name__ == '__main__':
     app.run(debug=True) 
