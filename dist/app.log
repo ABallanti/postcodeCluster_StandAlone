@@ -1,22 +1,24 @@
-2025-02-11 17:41:14 - INFO - === Application Starting ===
-2025-02-11 17:41:14 - INFO - Static folder path: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static
-2025-02-11 17:41:14 - INFO - Upload folder path: C:\Users\andre\AppData\Local\Temp\postcode_clustering\uploads
-2025-02-11 17:41:14 - INFO - Log file location: C:\Users\andre\ENWL\DoorKnocker_CodeAlone\dist\app.log
-2025-02-11 17:41:14 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-02-11 22:31:46 - INFO - === Application Starting ===
+2025-02-11 22:31:46 - INFO - Static folder path: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static
+2025-02-11 22:31:46 - INFO - Upload folder path: C:\Users\andre\AppData\Local\Temp\postcode_clustering\uploads
+2025-02-11 22:31:46 - INFO - Log file location: C:\Users\andre\ENWL\DoorKnocker_CodeAlone\dist\app.log
+2025-02-11 22:31:46 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
-2025-02-11 17:41:14 - INFO - [33mPress CTRL+C to quit[0m
-2025-02-11 17:41:16 - INFO - 127.0.0.1 - - [11/Feb/2025 17:41:16] "GET / HTTP/1.1" 200 -
-2025-02-11 17:41:33 - INFO - Starting file processing...
-2025-02-11 17:41:33 - INFO - Received file: postcodes_v2.csv
-2025-02-11 17:41:33 - INFO - Number of groups: 5
-2025-02-11 17:41:33 - INFO - Saved file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\uploads\20250211_174133_postcodes_v2.csv
-2025-02-11 17:41:33 - INFO - Processing postcodes...
-2025-02-11 17:41:46 - INFO - Processed 210 valid postcodes and 4 invalid postcodes
-2025-02-11 17:41:46 - INFO - Creating map...
-2025-02-11 17:41:47 - INFO - Saved map to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\map.html
-2025-02-11 17:41:47 - INFO - Attempting to save Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
-2025-02-11 17:41:47 - INFO - Successfully saved Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
-2025-02-11 17:41:47 - INFO - Excel file verified to exist after saving
-2025-02-11 17:41:47 - INFO - Cleaned up uploaded file
-2025-02-11 17:41:47 - INFO - 127.0.0.1 - - [11/Feb/2025 17:41:47] "POST / HTTP/1.1" 200 -
-2025-02-11 17:41:48 - INFO - 127.0.0.1 - - [11/Feb/2025 17:41:48] "GET /static/map.html HTTP/1.1" 200 -
+2025-02-11 22:31:46 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-11 22:31:48 - INFO - 127.0.0.1 - - [11/Feb/2025 22:31:48] "GET / HTTP/1.1" 200 -
+2025-02-11 22:31:55 - INFO - Starting file processing...
+2025-02-11 22:31:55 - INFO - Received file: postcodes_60.csv
+2025-02-11 22:31:55 - INFO - Number of groups: 4
+2025-02-11 22:31:55 - INFO - Saved file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\uploads\20250211_223155_postcodes_60.csv
+2025-02-11 22:31:55 - INFO - Processing postcodes...
+2025-02-11 22:31:56 - INFO - Processed 63 valid postcodes and 2 invalid postcodes
+2025-02-11 22:31:56 - INFO - Creating map...
+2025-02-11 22:31:57 - INFO - Saved map to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\map.html
+2025-02-11 22:31:57 - INFO - Attempting to save Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
+2025-02-11 22:31:57 - INFO - Successfully saved Excel file to: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static\grouped_postcodes.xlsx
+2025-02-11 22:31:57 - INFO - Excel file verified to exist after saving
+2025-02-11 22:31:57 - INFO - Cleaned up uploaded file
+2025-02-11 22:31:57 - INFO - 127.0.0.1 - - [11/Feb/2025 22:31:57] "POST / HTTP/1.1" 200 -
+2025-02-11 22:31:57 - INFO - 127.0.0.1 - - [11/Feb/2025 22:31:57] "GET /static/map.html HTTP/1.1" 200 -
+2025-02-11 22:32:10 - INFO - Attempting to open folder: C:\Users\andre\AppData\Local\Temp\postcode_clustering\static
+2025-02-11 22:32:10 - INFO - 127.0.0.1 - - [11/Feb/2025 22:32:10] "[35m[1mGET /open_folder HTTP/1.1[0m" 204 -

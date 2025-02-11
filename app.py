@@ -13,24 +13,29 @@ import traceback
 import subprocess
 import platform
 
-app = Flask(__name__)
-
 # Configure upload folder using temp directory
 if getattr(sys, 'frozen', False):
     # If running as executable
-    UPLOAD_FOLDER = os.path.join(tempfile.gettempdir(), 'postcode_clustering', 'uploads')
-    STATIC_FOLDER = os.path.join(tempfile.gettempdir(), 'postcode_clustering', 'static')
+    base_dir = os.path.join(tempfile.gettempdir(), 'postcode_clustering')
+    UPLOAD_FOLDER = os.path.join(base_dir, 'uploads')
+    STATIC_FOLDER = os.path.join(base_dir, 'static')
+    
+    # Configure Flask to use the correct static folder
+    app = Flask(__name__, static_folder=STATIC_FOLDER)
 else:
     # If running as script
     UPLOAD_FOLDER = 'uploads'
     STATIC_FOLDER = 'static'
+    app = Flask(__name__)
 
 # Create necessary directories
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(STATIC_FOLDER, exist_ok=True)
 
-ALLOWED_EXTENSIONS = {'csv'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['STATIC_FOLDER'] = STATIC_FOLDER
+
+ALLOWED_EXTENSIONS = {'csv'}
 
 def clean_old_files():
     """Clean up all files in static and upload folders"""
@@ -164,51 +169,10 @@ def upload_file():
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     try:
-        logging.info("\n=== Download Request Details ===")
-        logging.info(f"Time of request: {datetime.now()}")
-        logging.info(f"Requested URL: {request.url}")
-        logging.info(f"Looking for file: {filename}")
-        logging.info(f"Static folder configured as: {STATIC_FOLDER}")
-        
-        file_path = os.path.join(STATIC_FOLDER, filename)
-        logging.info(f"Full file path being checked: {file_path}")
-        
-        # Check if the directory exists
-        if not os.path.exists(STATIC_FOLDER):
-            logging.error(f"Static folder does not exist: {STATIC_FOLDER}")
-            return "Static folder not found", 404
-            
-        # List directory contents
-        try:
-            files_in_static = os.listdir(STATIC_FOLDER)
-            logging.info(f"Files currently in static folder: {files_in_static}")
-        except Exception as e:
-            logging.error(f"Error listing directory: {str(e)}")
-        
-        # Check file existence
-        if os.path.exists(file_path):
-            logging.info(f"File found at: {file_path}")
-            logging.info(f"File size: {os.path.getsize(file_path)} bytes")
-            try:
-                return send_file(
-                    file_path,
-                    mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    as_attachment=True,
-                    download_name='grouped_postcodes.xlsx'
-                )
-            except Exception as e:
-                logging.error(f"Error sending file: {str(e)}")
-                logging.error(traceback.format_exc())
-                raise
-        else:
-            logging.error(f"File not found at: {file_path}")
-            return "File not found", 404
-
+        logging.info(f"Serving static file: {filename} from {STATIC_FOLDER}")
+        return send_from_directory(STATIC_FOLDER, filename)
     except Exception as e:
-        logging.error("=== Error in serve_static ===")
-        logging.error(f"Error type: {type(e).__name__}")
-        logging.error(f"Error message: {str(e)}")
-        logging.error(traceback.format_exc())
+        logging.error(f"Error serving static file: {str(e)}")
         return f"Error: {str(e)}", 500
 
 @app.route('/open_folder')

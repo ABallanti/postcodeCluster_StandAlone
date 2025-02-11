@@ -57,14 +57,14 @@
 
         <form method="post" enctype="multipart/form-data">
             <div class="mb-4">
-                <label for="file" class="form-label">Select CSV file with postcodes:</label>
+                <label for="file" class="form-label">Select CSV file with postcodes in a column:</label>
                 <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
             </div>
             
             <div class="mb-4">
-                <label for="num_groups" class="form-label">Number of groups:</label>
+                <label for="num_groups" class="form-label">Number of clusters:</label>
                 <input type="number" class="form-control" id="num_groups" name="num_groups" 
-                       value="8" min="2" required style="max-width: 200px;">
+                       value="4" min="2" required style="max-width: 200px;">
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg">

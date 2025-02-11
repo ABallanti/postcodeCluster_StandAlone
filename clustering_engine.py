@@ -6,6 +6,7 @@ import folium
 import os
 from pyproj import Transformer
 import sys
+import tempfile
 
 # Extract non-numeric prefix from postcode
 def extract_postcode_prefix(postcode):
@@ -177,6 +178,16 @@ def create_map(grouped_postcodes):
             print(f"Error adding point for postcode {row['Postcode']}: {str(e)}")
 
     print(f"Successfully added {points_added} points to the map")
+    
+    # Get the correct static folder path
+    if getattr(sys, 'frozen', False):
+        static_folder = os.path.join(tempfile.gettempdir(), 'postcode_clustering', 'static')
+    else:
+        static_folder = 'static'
+        
+    map_path = os.path.join(static_folder, 'map.html')
+    print(f"Saving map to: {map_path}")
+    m.save(map_path)
     return m
 
 # Main code run
