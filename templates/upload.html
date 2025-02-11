@@ -2,66 +2,77 @@
 <html>
 <head>
     <title>Postcode Clustering Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --enwl-navy: #002B5C;
+            --enwl-green: #8CC63F;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            font-family: 'Titillium Web', sans-serif;
+        }
+        
+        .upload-container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        .container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 5px;
+        
+        h1 {
+            color: var(--enwl-navy) !important;
         }
-        .error {
-            color: red;
-            margin-bottom: 10px;
+        
+        .btn-primary {
+            background-color: var(--enwl-navy);
+            border-color: var(--enwl-navy);
         }
-        .form-group {
-            margin-bottom: 15px;
+        
+        .btn-primary:hover {
+            background-color: #003d7a;
+            border-color: #003d7a;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="file"], input[type="number"] {
-            margin-bottom: 10px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+        
+        .form-label {
+            color: var(--enwl-navy);
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Postcode Clustering Tool</h1>
+    <div class="container upload-container">
+        <h1 class="mb-4">Postcode Clustering Tool</h1>
         
         {% if error %}
-        <div class="error">{{ error }}</div>
+        <div class="alert alert-danger error">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            {{ error }}
+        </div>
         {% endif %}
 
         <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="file">Select CSV file with postcodes:</label>
-                <input type="file" id="file" name="file" accept=".csv" required>
+            <div class="mb-4">
+                <label for="file" class="form-label">Select CSV file with postcodes:</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
             </div>
             
-            <div class="form-group">
-                <label for="num_groups">Number of groups:</label>
-                <input type="number" id="num_groups" name="num_groups" value="8" min="2" required>
+            <div class="mb-4">
+                <label for="num_groups" class="form-label">Number of groups:</label>
+                <input type="number" class="form-control" id="num_groups" name="num_groups" 
+                       value="8" min="2" required style="max-width: 200px;">
             </div>
 
-            <button type="submit">Upload and Process</button>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-upload"></i> Upload and Process
+            </button>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 
